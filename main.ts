@@ -54,15 +54,15 @@ Deno.serve(async (请求) => {
       headers: {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)",
         "Accept": "application/json,*/*",
-        "Referer": "https://aqtw.qq.com/",
       },
+      redirect: "follow",
     });
 
-    const 新头 = new Headers(回应.headers);
-    for (const [键, 值] of Object.entries(跨域)) 新头.set(键, 值);
-    新头.set("Content-Type", "application/json; charset=utf-8");
-
-    return new Response(回应.body, { status: 回应.status, headers: 新头 });
+    const 文本 = await 回应.text();
+    return new Response(文本, {
+      status: 200,
+      headers: { ...跨域, "Content-Type": "application/json; charset=utf-8" },
+    });
   } catch (错) {
     return new Response(JSON.stringify({ error: String(错) }), {
       status: 502,
